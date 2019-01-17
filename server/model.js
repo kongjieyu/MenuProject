@@ -14,6 +14,7 @@ const models = {
         type: {type: String, require: true},
         //头像
         avatar: {type: String},
+        avatarUrl: {type: String},
         //个人简介或者职位简介
         desc: {type: String},
         //职位名

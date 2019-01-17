@@ -34,12 +34,13 @@ class GeniusInfo extends React.Component {
         return (
             <div>
                 {redirct&&redirct!==path?<Redirect to={this.props.redirectTo}></Redirect>:null}
-                <NavBar mode="dark">牛人 完善信息页面</NavBar>
+                <NavBar mode="dark">让大家更了解你！</NavBar>
                 {/* 因为在boss页面和牛人页面都需要用到选择头像，所以将选择头像这部分写成组件 */}
                 <AvatarSelector
-                    selectAvatar = {(imgname)=>{
+                    selectAvatar = {(imgname,url)=>{
                         this.setState({
-                            avatar: imgname
+                            avatar: imgname,
+                            avatarUrl:null||url
                         })
                     }}
                 ></AvatarSelector>
@@ -61,6 +62,7 @@ class GeniusInfo extends React.Component {
                         this.props.update(this.state)
                     }}
                     type='primary'>保存</Button>
+                <WhiteSpace />
                 <Button onClick={this.logout} type='primary'>
                 退出登陆
                 </Button>

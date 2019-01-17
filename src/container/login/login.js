@@ -11,12 +11,20 @@ var w = window.innerWidth;
 var h = window.innerHeight;
 
 var sectionStyle = {
-  width: w,
-//   height: "400px",
-    height: h,
-  alignUtem: 'center',
-  backgroundSize: 'cover',
-  backgroundImage: `url(${Background})`
+    header: {
+        width: w,
+        //   height: "400px",
+            height: h,
+        alignUtem: 'center',
+        backgroundSize: 'cover',
+        backgroundImage: `url(${Background})`
+    },
+    content: {
+        height: '100%',
+        width: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    }
+
 };
 
 @connect(
@@ -54,10 +62,10 @@ class Login extends React.Component{
 
     render(){
         return(
-            <div className='mainPage' style={sectionStyle}>
+            <div className='mainPage' style={sectionStyle.header}>
+                <div style={sectionStyle.content}>
                 {(this.props.redirectTo&&this.props.redireactTo!=='/login')? <Redirect to={this.props.redirectTo} />:null}
                 <Logo></Logo>
-                <h2>我是登陆页面</h2>
                 <WingBlank>
                     <List>
                         {/* 报错信息  */}
@@ -77,6 +85,7 @@ class Login extends React.Component{
                     <Button onClick={this.register} type='primary'>注册</Button>
 
                 </WingBlank>
+                </div>
             </div>
         )
     }

@@ -31,7 +31,7 @@ class BossInfo extends React.Component {
         return (
             <div>
                 {redirct&&redirct!==path?<Redirect to={this.props.redirectTo}></Redirect>:null}
-                <NavBar mode="dark">BOSS 完善信息页面</NavBar>
+                <NavBar mode="dark">让大家更了解你！</NavBar>
                 {/* 因为在boss页面和牛人页面都需要用到选择头像，所以将选择头像这部分写成组件 */}
                 <AvatarSelector
                     selectAvatar = {(imgname)=>{

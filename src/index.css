@@ -1,3 +1,9 @@
+html, body {
+    height: 100%;
+}
+.mainPage {
+    height: 100%;
+}
 .error-msg{
     color: #f50;
     padding-left: 10px;

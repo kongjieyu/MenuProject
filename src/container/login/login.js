@@ -5,6 +5,19 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { login } from '../../redux/user.redux'
 import imoocForm from '../../component/imooc-form/imooc-form'
+import Background from '/Users/may/Desktop/reactLearningPath/src/component/img/background/backgroundImg.png';
+
+var w = window.innerWidth;
+var h = window.innerHeight;
+
+var sectionStyle = {
+  width: w,
+//   height: "400px",
+    height: h,
+  alignUtem: 'center',
+  backgroundSize: 'cover',
+  backgroundImage: `url(${Background})`
+};
 
 @connect(
     //要的state属性，和方法都通过connect放到props里
@@ -41,7 +54,7 @@ class Login extends React.Component{
 
     render(){
         return(
-            <div>
+            <div className='mainPage' style={sectionStyle}>
                 {(this.props.redirectTo&&this.props.redireactTo!=='/login')? <Redirect to={this.props.redirectTo} />:null}
                 <Logo></Logo>
                 <h2>我是登陆页面</h2>
@@ -62,6 +75,7 @@ class Login extends React.Component{
                     <Button onClick={this.handleLogin} type='primary'>登陆</Button>
                         <WhiteSpace />
                     <Button onClick={this.register} type='primary'>注册</Button>
+
                 </WingBlank>
             </div>
         )

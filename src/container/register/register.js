@@ -7,6 +7,8 @@ import { Redirect } from 'react-router-dom'
 import { register } from '../../redux/user.redux'
 import imoocForm from '../../component/imooc-form/imooc-form'
 
+const Item = List.Item;
+const Brief = Item.Brief;
 @connect(
     //要的state属性，和方法都通过connect放到props里
     state=>state.user,
@@ -41,11 +43,11 @@ class Register extends React.Component{
     //因为是个路由组件，可以直接使用this.props.history.push()
     render(){
         const RadioItem = Radio.RadioItem;
+        
         return(
             <div>
                 {this.props.redirectTo? <Redirect to={this.props.redirectTo} />:null}
                 <Logo></Logo>
-                <h2>我是注册页面</h2>
                 <WingBlank>
                     <List>
                         {this.props.msg?<p className='error-msg'>{this.props.msg}</p>:null}
@@ -60,17 +62,20 @@ class Register extends React.Component{
                             type='password'
                             onChange={(v) => { this.props.handleChange('repeatpwd', v)}}
                         >确认密码</InputItem>
+                    </List>
+                        <List renderHeader={() => '介绍你自己'}>
                         <RadioItem
                             checked={this.props.state.type==='genius'}
                             onChange={() => { this.props.handleChange('type', 'genius')}}
-                            >牛人
+                            >我是大厨
                         </RadioItem>
                         <RadioItem 
                             checked={this.props.state.type==='boss'}
                             onChange={() => { this.props.handleChange('type', 'boss')}}
-                            >BOSS
+                            >我是设计师
                         </RadioItem>
-                    </List>
+                        </List>
+
                     <WhiteSpace />
                     <Button type='primary' onClick={this.handleRegister}>注册</Button>
                 </WingBlank>

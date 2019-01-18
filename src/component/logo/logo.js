@@ -1,5 +1,5 @@
 import React from 'react'
-import logoImg from './logo.png'
+import logoImg from './Menu.png'
 import './logo.css'
 
 class Logo extends React.Component{

@@ -40,12 +40,13 @@ class User extends React.Component{
         
         console.log(this.props)
         const props = this.props
+        const url = props.avatarUrl
         const Item = List.Item;
         const Brief = Item.Brief;
         return props.user?(
             <div>
                  <Result
-                     img={<img src={require(`../../component/img/${this.props.avatar}.png`)} alt="" style={{ width:40 }}/>}
+                     img= {props.avatarUrl?<img src={url} alt="" style={{ width:40 }}/>:<img src={require(`../../component/img/${this.props.avatar}.png`)} alt="" style={{ width:40 }}/>}
                      title={this.props.user}
                      message={props.type==='boss'?props.company:null}
                 />

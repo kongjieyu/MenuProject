@@ -27,7 +27,7 @@ class UserCard extends React.Component{
                             >
                         <Header
                             title = {v.user}
-                            thumb = {require(`../img/${v.avatar}.png`)}
+                            thumb = {v.avatarUrl?v.avatarUrl:(require(`../img/${v.avatar}.png`))}
                             thumbStyle = {{width:40}}
                             extra = {<span>{v.title}</span>}
                         />

@@ -1,14 +1,21 @@
 import React from 'react'
-import { Grid,Button,ImagePicker, WingBlank, SegmentedControl  } from 'antd-mobile';
+import { Grid,Button,ImagePicker, WingBlank, SegmentedControl,List,Result,Icon  } from 'antd-mobile';
 import PropTypes from 'prop-types';
 import './avatar-selector.css'
 import {storage} from '../firebase/index.js'
+import { connect } from 'react-redux';
 
-const data = [{
-  url: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',
-  id: '2121',
-}];
+const data = [];
+const Item = List.Item;
+const Brief = Item.Brief;
+const myImg = src => <img src={src} className="spe am-icon am-icon-md" alt="" />;
 
+// ImagePicker.defaultProps = {
+//     disable: false
+// }
+@connect(
+    state => state.user
+)
 class AvatarSelector extends React.Component {
     static PropTypes = {
         selectAvatar: PropTypes.func.isRequired
@@ -51,7 +58,8 @@ class AvatarSelector extends React.Component {
     fileUploadHandler = () =>{
         console.log(this.state)
         const {icon} = this.state
-        const upLoadTask =  storage.ref(`images/${icon.name}`).put(icon);
+        const {text} = this.state
+        const upLoadTask =  storage.ref(`images/${text}`).put(icon);
         // upLoadTask.on('stage_changed', progress, error, complete)
         upLoadTask.on('state_changed', 
         (snapshot)=>{
@@ -67,11 +75,11 @@ class AvatarSelector extends React.Component {
         }, 
         ()=>{
             //complete function
-            storage.ref('images').child(icon.name).getDownloadURL().then(url=>{
+            storage.ref('images').child(text).getDownloadURL().then(url=>{
                 console.log(url)
                 this.setState({
                     icon: url,
-                    text: icon.name,
+                    text: text,
                     url: url
                 })
                 this.props.selectAvatar(this.state.text,this.state.url)
@@ -87,14 +95,13 @@ class AvatarSelector extends React.Component {
         let text = null;
 
         if(files[0]){
-                console.log(files[0].file.name)
-                 icon = files[0]['url']
-                 text = files[0].file.name
-                console.log(files[0])
-                console.log(files[0]['url'])
+            console.log('打印files')
+            console.log(files[0])
+            console.log(files[0].file)
+            console.log(files[0].file.name)
+            icon = files[0].file
+            text = files[0].file.name
         }
-
-
         this.setState({
             icon:icon,
             text:text,
@@ -102,12 +109,11 @@ class AvatarSelector extends React.Component {
         files,
         });
   }
-    upload=()=>{
-        console.log('UPPPPPLOAD')
-        console.log(this.state.text)
-        console.log(this.state.url)
-            this.props.selectAvatar(this.state.text,this.state.url)
-                }
+    // upload=()=>{
+    //     console.log('UPPPPPLOAD')
+    //     console.log(this.state.text)
+    //         this.props.selectAvatar(this.state.text,this.state.url)
+    //             }
     render(){
         const { files } = this.state;
         const avatarList = 'kk,jj,yy,cc,zz,dd'
@@ -130,10 +136,17 @@ class AvatarSelector extends React.Component {
         
         const gridHeader = this.state.icon
                             ? (<div className="avatar-container">
-                                    <span>已选择头像</span>
+                                    {/* <span>已选择头像</span>
                                     <div >
                                         <img className="avatar-img" style={{width:60}} src={this.state.icon} alt=""/>
-                                    </div>
+                                    </div> */}
+                                    {/* <div className="sub-title">支付成功</div> */}
+                                        <Result
+                                            img={myImg(this.state.icon)}
+                                            
+                                            message={<div>{this.props.user}</div>}
+                                        />   
+
                                 </div>)
                                 : <div>'请选择头像'</div>
         
@@ -159,40 +172,27 @@ class AvatarSelector extends React.Component {
                     }}
 
                 />
-
-                <input type="file" onChange={this.fileSelectedHandler}/>
-                <Button onClick={this.fileUploadHandler}>Upload</Button>
-                <img src={this.state.url||'https://via.placeholder.com/300'} alt="Upload Picture" height="300px"/>
-                <Button onClick={this.stateGet}> 
-                    打印state
-                </Button>
-                <Button onClick={this.upload}>UPPPPPPLOAD</Button>
-                {/* 这种写法可以不显示text */}
-                {/* <div className="sub-title">Custom GridCell Style</div>
-                <Grid 
-                    data={avatarList1} 
-                    columnNum={3} 
-                    itemStyle={{ height: '150px', background: 'rgba(0,0,0,.05)' }}
-                    onClick = {elm=>{
-                        this.setState(elm)
-                        this.props.selectAvatar(elm.ele)
-                        console.log('elm')
-                    }}
+                    {/* <ImagePicker
+                        files={files}
+                        onChange={this.onChange}
+                        onImageClick={(index, fs) => console.log(index, fs)}
+                        selectable={files.length <1}
+                        accept="image/gif,image/jpeg,image/jpg,image/png"
                     /> */}
-                    
+                
+                <List renderHeader={() => 'Align Vertical Center'} className="my-list">
+                    <Item multipleLine extra="extra content">
+                        <ImagePicker
+                                files={files}
+                                onChange={this.onChange}
+                                onImageClick={(index, fs) => console.log(index, fs)}
+                                selectable={files.length <1}
+                                accept="image/gif,image/jpeg,image/jpg,image/png"
+                            />
+                    </Item>
+                    <Button onClick={this.fileUploadHandler}>Upload</Button>
+                </List>
 
-        {/* <SegmentedControl
-          values={['切换到单选', '切换到多选']}
-          selectedIndex={this.state.multiple ? 1 : 0}
-          onChange={this.onSegChange}
-        /> */}
-        <ImagePicker
-          files={files}
-          onChange={this.onChange}
-          onImageClick={(index, fs) => console.log(index, fs)}
-          selectable={files.length < 5}
-          accept="image/gif,image/jpeg,image/jpg,image/png"
-        />
             </div>
 
         )
